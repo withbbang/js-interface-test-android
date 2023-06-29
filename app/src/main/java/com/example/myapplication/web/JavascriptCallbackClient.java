@@ -43,4 +43,20 @@ public class JavascriptCallbackClient {
             );
         }, 5000);
     }
+
+    @JavascriptInterface
+    public void showToastMessageIncludingData(final String message) {
+        webView.post(new Runnable() {
+            @Override
+            public void run() {
+                String value = "\"" + message + " 그리고 K상남자지~!" + "\"";
+
+                webView.evaluateJavascript(publishEvent("showToastMessageIncludingData", value),
+                        (result) -> {
+                            Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
+                        }
+                );
+            }
+        });
+    }
 }
