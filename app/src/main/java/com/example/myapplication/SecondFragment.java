@@ -12,25 +12,20 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
-import com.example.myapplication.databinding.FragmentFirstBinding;
+import com.example.myapplication.databinding.FragmentSecondBinding;
 import com.example.myapplication.web.JavascriptCallbackClient;
 
-public class FirstFragment extends Fragment {
-
-    private FragmentFirstBinding binding;
+public class SecondFragment extends Fragment {
+    private FragmentSecondBinding binding;
 
     private WebView webView;
     private ProgressBar progressBar;
     private EditText urlEditText;
     private OnBackPressedCallback onBackPressedCallback;
-
     public void initWebView() {
-
         webView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -57,7 +52,7 @@ public class FirstFragment extends Fragment {
 
         webView.addJavascriptInterface(new JavascriptCallbackClient(requireActivity(), webView), "android");
         webView.addJavascriptInterface(new JavascriptCallbackClient(requireActivity(), webView), "jsInterface");
-        webView.loadUrl("http://js-interface-test.o-r.kr/");
+        webView.loadUrl("http://js-interface-test.o-r.kr/test");
         this.callJsInterfaceAsSoonAsInit();
     }
 
@@ -68,11 +63,10 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = FragmentSecondBinding.inflate(inflater, container, false);
 
         webView = binding.wView;
         progressBar = binding.pBar;
-        urlEditText = binding.urlEt;
 
         progressBar.setVisibility(View.GONE);
 

@@ -1,14 +1,17 @@
 package com.example.myapplication.web;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Toast;
-import com.example.myapplication.TestActivity;
+import androidx.fragment.app.FragmentTransaction;
+import com.example.myapplication.MainActivity;
+import com.example.myapplication.R;
+import com.example.myapplication.SecondFragment;
 
 public class JavascriptCallbackClient {
 
+    private MainActivity activity;
     private Activity mContext;
     private WebView webView;
 
@@ -64,16 +67,14 @@ public class JavascriptCallbackClient {
 
     @JavascriptInterface
     public void test(final String message) {
-        webView.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Intent intent = new Intent(mContext, TestActivity.class);
-                    mContext.startActivityForResult(intent, 0);
-                } catch (Exception e) {
-                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        try {
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+            SecondFragment fragment = new SecondFragment();
+            transaction.replace(R.id.nav_host_fragment_content_main, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 }
