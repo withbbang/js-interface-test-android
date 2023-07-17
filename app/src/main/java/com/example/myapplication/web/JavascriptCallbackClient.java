@@ -1,9 +1,11 @@
 package com.example.myapplication.web;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Toast;
+import com.example.myapplication.TestActivity;
 
 public class JavascriptCallbackClient {
 
@@ -49,13 +51,28 @@ public class JavascriptCallbackClient {
         webView.post(new Runnable() {
             @Override
             public void run() {
-                String value = "\"" + message + " 그리고 K상남자지~!" + "\"";
+                String value = "\"" + message + " 그리고 K상남자~!" + "\"";
 
                 webView.evaluateJavascript(publishEvent("showToastMessageIncludingData", value),
                         (result) -> {
                             Toast.makeText(mContext, value, Toast.LENGTH_SHORT).show();
                         }
                 );
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void test(final String message) {
+        webView.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Intent intent = new Intent(mContext, TestActivity.class);
+                    mContext.startActivityForResult(intent, 0);
+                } catch (Exception e) {
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
