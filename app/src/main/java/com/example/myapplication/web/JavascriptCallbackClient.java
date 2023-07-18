@@ -1,9 +1,11 @@
 package com.example.myapplication.web;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Toast;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
@@ -66,15 +68,31 @@ public class JavascriptCallbackClient {
     }
 
     @JavascriptInterface
-    public void test(final String message) {
-        try {
-            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-            SecondFragment fragment = new SecondFragment();
-            transaction.replace(R.id.nav_host_fragment_content_main, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        } catch (Exception e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+    public void test() {
+        webView.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    mContext.startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void finish() {
+        webView.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mContext.finish();
+                } catch (Exception e) {
+                    Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
